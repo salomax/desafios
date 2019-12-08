@@ -2,7 +2,6 @@ package idwall.desafio.string.model;
 
 import idwall.desafio.string.style.LineAligment;
 import idwall.desafio.string.style.impl.JustifyLineAlignment;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
