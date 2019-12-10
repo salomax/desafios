@@ -1,0 +1,25 @@
+logging:
+  level:
+    root: ERROR
+
+spring:
+  application:
+    name: idwall-reddit-crawler
+  batch:
+    job:
+      enabled: false
+
+reddit:
+  url: https://old.reddit.com
+
+telegram:
+  bot:
+    url: t.me/SalomaxIdWallBot
+    username: SalomaxIdWallBot
+    token: 979348664:AAE_PhawwduBpoZCZBOb-UsrxGuKY2xDS4E
+  api:
+    id: 1040413
+    hash: 57f992535e36f5da21d541d454c9847c
+  environment:
+    test: 149.154.167.40:443
+    production: 149.154.167.50:443

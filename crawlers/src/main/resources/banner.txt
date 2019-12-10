@@ -1,0 +1,38 @@
+    
+    
+       ▒▒                         ▒▒
+       ▒▒▒▒                     ▒▒▒▒
+         ▒▒                    ▒▒▒
+                                                               
+               ▒▒         ▒▒                             ▐██  ▐██
+                          ▒▒                             ▐██  ▐██
+              ▒▒▒    ▒▒▒▒▒▒▒   ███  ▐██▌   ██  ▄████████ ▐██  ▐██
+              ▒▒▒   ▒▒    ▒▒    ██▌ ████ ▐██▀ ███   ▀███ ▐██  ▐██
+              ▒▒▒  ▒▒     ▒▒     █████ ████▌  ██▌    ███ ▐██▄ ▐██▄
+              ▒▒▒   ▒▒    ▒▒     ████  ████   ▀███▄▄████  ███▄ ███▄
+              ▒▒▒    ▒▒▒▒▒ ▒      ▀▀    ▀▀      ▀▀▀▀▀▀ ▀   ▀▀▀  ▀▀▀
+    
+        ▒▒▒                     ▒▒▒
+      ▒▒▒▒▒                     ▒▒▒▒
+       ▒▒                         ▒▒
+    
+ 
+_________________________________________________________________________
+
+Challenge #2 - Reddit Crawler
+
+- Find Reddit threads with rate greater or equals to 5000
+- Filtered by SubReddit list (use ';' to separate each one)
+
+- Limits:
+ - 50 threads by SubReddit
+ - Timeout 60s on Multi-thread mode
+
+Command example:
+  $ search askreddit;worldnews;cats
+
+Use Multi-thread option:
+  $ search askreddit;worldnews;cats --multithread
+
+Initializing Spring Boot CLI
+

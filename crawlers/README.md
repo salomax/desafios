@@ -1,31 +1,109 @@
-# Desafio 2: Crawlers
+# Challenge #2 - Crawlers
 
-Parte do trabalho na IDwall inclui desenvolver *crawlers/scrapers* para coletar dados de websites.
-Como nós nos divertimos trabalhando, às vezes trabalhamos para nos divertir!
+Create a reddit crawler.
 
-O Reddit é quase como um fórum com milhares de categorias diferentes. Com a sua conta, você pode navegar por assuntos técnicos, ver fotos de gatinhos, discutir questões de filosofia, aprender alguns life hacks e ficar por dentro das notícias do mundo todo!
+### Input
+* subreddit names joined by ';'. ie: "askreddit;worldnews;cats"
 
-Subreddits são como fóruns dentro do Reddit e as postagens são chamadas *threads*.
+### Part #1
 
-Para quem gosta de gatos, há o subreddit ["/r/cats"](https://www.reddit.com/r/cats) com threads contendo fotos de gatos fofinhos.
-Para *threads* sobre o Brasil, vale a pena visitar ["/r/brazil"](https://www.reddit.com/r/brazil) ou ainda ["/r/worldnews"](https://www.reddit.com/r/worldnews/).
-Um dos maiores subreddits é o "/r/AskReddit".
+* Print reddit thread list with rate, title, links (thread and comment).
+* Show it in a CLI
 
-Cada *thread* possui uma pontuação que, simplificando, aumenta com "up votes" (tipo um like) e é reduzida com "down votes".
+##### Implementation
 
-Sua missão é encontrar e listar as *threads* que estão bombando no Reddit naquele momento!
-Consideramos como bombando *threads* com 5000 pontos ou mais.
+* CLI implemented with Spring Boot Shell. See `SearchRedditThreadCommand`.
+* Command `search` does the job:
 
-## Entrada
-- Lista com nomes de subreddits separados por ponto-e-vírgula (`;`). Ex: "askreddit;worldnews;cats"
+```sh
+$ search askreddit;worldnews;cats
+```
+* I setup a thread limit (50 by subreddit). That's the case to ensure if there're a huge number of pages
+  the algorithm runs until a plausible result and also prevent to keep executing indefinitely.
 
-### Parte 1
-Gerar e imprimir uma lista contendo a pontuação, subreddit, título da thread, link para os comentários da thread e link da thread.
-Essa parte pode ser um CLI simples, desde que a formatação da impressão fique legível.
+* **Overdelivery** Also created a second implementation for multithread loading and parsing Reddit HTML. Just add `--multithread` option.
 
-### Parte 2
-Construir um robô que nos envie essa lista via Telegram sempre que receber o comando `/NadaPraFazer [+ Lista de subrredits]` (ex.: `/NadaPraFazer programming;dogs;brazil`)
+```sh
+$ search askreddit;worldnews;cats --multithread
+```
 
-### Dicas
- - Use https://old.reddit.com/
- - Qualquer método para coletar os dados é válido. Caso não saiba por onde começar, procure por JSoup (Java), SeleniumHQ (Java), PhantomJS (Javascript) e Beautiful Soup (Python).
+Multi thread option has timeout setup to 60s as default.
+
+Regardless the implementation, either Single thread or Multi thread, each subreddit runs in parallel.
+Multi thread is applied for loading and parsing Reddit HTML as mentioned above.
+
+### Part #2
+
+* Build a Telegram bot to send a message back with the same reply as part #1
+  whenever it receives the command /NadaPraFazer [+ Lista de subrredits].
+
+##### Implementation
+
+No big deal, just a simple integration with telegram using a bot implementation through the class `SalomaxIdWallBot`.
+To keep the generalization I created an interface called `TelegramCommand`, hence it makes easy to create multiple commands
+and map with Telegram by qualifiers, as the example @Qualifier("/NadaPraFazer").
+
+**Telegram uses multi thread solution. Therefore, it has a timeout (60s) or until the crawler searches all over pages.**
+
+#### Unit test and Mock test
+
+As you can see, I built an unit test `SingleThreadCrawlerUnitTest` using mocks.
+I've done just for example as I'm used to do to ensure the rules and to keep the code trustful throughout new releases.
+
+### Build Application
+
+Go to application folder and run the command (unix-based os example):
+
+```sh
+./mvnw clean install
+```
+
+Ensure Docker daemon is running on your machine.
+
+### Run Application
+
+After you build the application, you are able to run it  just execution the command below:
+
+###### Default values
+```sh
+java -jar target/idwall-reddit-crawler-1.0-SNAPSHOT.jar
+```
+
+
+### Other options
+
+You can replace Telegram bot config by the parameters:
+
+```sh
+java -jar \
+    -Dtelegram.bot.username=SalomaxIdWallBot \
+    -Dtelegram.bot.token=979348664:AAE_PhawwduBpoZCZBOb-UsrxGuKY2xDS4E \
+    target/idwall-reddit-crawler-1.0-SNAPSHOT.jar
+```
+
+
+### Run Docker
+
+You are also able to run this application by Docker. During the deploy, the image is setup on Docker machine.
+
+###### Check the image:
+
+```sh
+docker image ls
+```
+
+###### You have to find the image *salomax/idwall-reddit-crawler*
+
+```sh
+REPOSITORY                                         TAG                     IMAGE ID            CREATED             SIZE
+salomax/idwall-reddit-crawler                      1.0-SNAPSHOT            91c25253b773        30 seconds ago      142MB
+```
+
+###### Now just run the examples following, in order to run the application by Docker:
+
+```sh
+docker run --rm -it salomax/idwall-reddit-crawler:1.0-SNAPSHOT
+```
+
+Don't forget param `it`, otherwise a NullPointerException will be thrown because interactive mode is enabled.
+
