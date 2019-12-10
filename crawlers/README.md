@@ -18,8 +18,8 @@ Create a reddit crawler.
 ```sh
 $ search askreddit;worldnews;cats
 ```
-* I setup a thread limit (50 by subreddit). That's the case to ensure if there're a huge number of pages
-  the algorithm runs until a plausible result and also prevent to keep executing indefinitely.
+* I setup a thread limit (50 by subreddit). That's the case if there're a huge number of pages from Reddit
+  and thus we have to prevent to keep executing it indefinitely.
 
 * **Overdelivery** Also created a second implementation for multithread loading and parsing Reddit HTML. Just add `--multithread` option.
 
@@ -27,10 +27,10 @@ $ search askreddit;worldnews;cats
 $ search askreddit;worldnews;cats --multithread
 ```
 
-Multi thread option has timeout setup to 60s as default.
+Multi thread option has a timeout set to 60s up as default.
 
-Regardless the implementation, either Single thread or Multi thread, each subreddit runs in parallel.
-Multi thread is applied for loading and parsing Reddit HTML as mentioned above.
+Regardless the implementation, either Single thread or Multi thread, each subreddit runs in parallel anyway.
+**Multi thread** option is applied **only** for loading and parsing Reddit HTML as mentioned above.
 
 ### Part #2
 
@@ -40,15 +40,15 @@ Multi thread is applied for loading and parsing Reddit HTML as mentioned above.
 ##### Implementation
 
 No big deal, just a simple integration with telegram using a bot implementation through the class `SalomaxIdWallBot`.
-To keep the generalization I created an interface called `TelegramCommand`, hence it makes easy to create multiple commands
-and map with Telegram by qualifiers, as the example @Qualifier("/NadaPraFazer").
+To keep the generalization, I created an interface called `TelegramCommand` and hence, it makes easy to create multiple commands
+and map them with Telegram by qualifiers, as the example @Qualifier("/NadaPraFazer") on class `RedditCrawlerTelegramCommand`.
 
 **Telegram uses multi thread solution. Therefore, it has a timeout (60s) or until the crawler searches all over pages.**
 
 #### Unit test and Mock test
 
 As you can see, I built an unit test `SingleThreadCrawlerUnitTest` using mocks.
-I've done just for example as I'm used to do to ensure the rules and to keep the code trustful throughout new releases.
+I've done just this one as example for how to ensure the rules and to keep the code trustful throughout new releases.
 
 ### Build Application
 
@@ -64,11 +64,21 @@ Ensure Docker daemon is running on your machine.
 
 After you build the application, you are able to run it  just execution the command below:
 
-###### Default values
 ```sh
 java -jar target/idwall-reddit-crawler-1.0-SNAPSHOT.jar
 ```
 
+##### Simple search
+
+```sh
+$ search askreddit;worldnews;cats --multithread
+```
+
+##### Exit from the application
+
+```sh
+$ exit
+```
 
 ### Other options
 
@@ -105,5 +115,5 @@ salomax/idwall-reddit-crawler                      1.0-SNAPSHOT            91c25
 docker run --rm -it salomax/idwall-reddit-crawler:1.0-SNAPSHOT
 ```
 
-Don't forget param `it`, otherwise a NullPointerException will be thrown because interactive mode is enabled.
+Don't forget param `it`, otherwise a NullPointerException will be thrown because interactive mode is not enabled.
 
