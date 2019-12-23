@@ -15,8 +15,8 @@ reddit:
 telegram:
   bot:
     url: t.me/SalomaxIdWallBot
-    username: SalomaxIdWallBot
-    token: 979348664:AAE_PhawwduBpoZCZBOb-UsrxGuKY2xDS4E
+    username: test
+    token: test
   api:
     id: 1040413
     hash: 57f992535e36f5da21d541d454c9847c

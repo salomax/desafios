@@ -21,11 +21,11 @@ public class TelegramConfig {
     @Bean
     public TelegramBotsApi telegramBotsApi(LongPollingBot salomaxIdWallBot) {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        try {
-            telegramBotsApi.registerBot(salomaxIdWallBot);
-        } catch (TelegramApiRequestException e) {
-            throw new IdWallRuntimeException("Telegram API not setup", e);
-        }
+//        try {
+//            telegramBotsApi.registerBot(salomaxIdWallBot);
+//        } catch (TelegramApiRequestException e) {
+//            throw new IdWallRuntimeException("Telegram API not setup", e);
+//        }
         return telegramBotsApi;
     }
 

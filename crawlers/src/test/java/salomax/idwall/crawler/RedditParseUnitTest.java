@@ -33,14 +33,24 @@ public class RedditParseUnitTest {
 
     @Test
     public void parse() throws IOException {
+
+        long time = System.currentTimeMillis();
+
         Connection connection = Jsoup.connect("https://old.reddit.com");
         assertNotNull(connection);
+
+        System.out.println(System.currentTimeMillis() - time);
 
         Connection.Response response = connection.execute();
         assertNotNull(response);
 
+        System.out.println(System.currentTimeMillis() - time);
+
         Document document = response.parse();
         assertNotNull(document);
+
+        System.out.println(System.currentTimeMillis() - time);
+
     }
 
 }
