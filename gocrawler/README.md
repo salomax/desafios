@@ -23,3 +23,7 @@ time in ms
 ```sh
 docker build -t salomax/idwall-go-crawler:1.0 .
 ```
+
+```sh
+docker run --rm salomax/idwall-go-crawler:1.0
+```
